@@ -1,27 +1,28 @@
-import {Injectable} from '@angular/core';
-
 type Direction = 'UP' | 'DOWN';
 export type DoorStatus = 'OPEN' | 'CLOSED';
 type Request = { direction: Direction, targetLevel: number };
 type TaskType = 'OPEN_DOOR' | 'CLOSE_DOOR';
 type MicroTask = { task: TaskType };
 
-@Injectable({
-  providedIn: 'root'
-})
 export class ElevatorControlService {
   private currentLevel: number;
   private requests: Request[] = [];
   private doorStatus: DoorStatus;
   private microQueue: MicroTask[] = [];
 
-  constructor(private readonly levels: number) {
+  constructor(
+    private readonly lowestFloor: number,
+    private readonly highestFloor: number) {
     this.currentLevel = 0;
     this.doorStatus = 'CLOSED';
   }
 
-  getLevels(): number {
-    return this.levels;
+  getHighestFloor(): number {
+    return this.highestFloor;
+  }
+
+  getLowestFloor(): number {
+    return this.lowestFloor;
   }
 
   getCurrentLevel(): number {

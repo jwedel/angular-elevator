@@ -1,0 +1,30 @@
+<mat-card class="building-card">
+  <mat-card-header>
+    <mat-card-title>The building</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-list>
+      <mat-list-item *ngFor="let level of [].constructor(getLevels()); let i = index">
+        <span mat-line>Floor {{highestFloor - i}}</span>
+        <button
+          *ngIf="i > 0"
+          mat-mini-fab
+          color="primary"
+          (click)="elevatorControl.requestUpFromFloor(highestFloor - i)">
+          <mat-icon>arrow_upward</mat-icon>
+        </button>
+        <button
+          *ngIf="i < (getLevels() -1 )"
+          mat-mini-fab
+          color="primary"
+          (click)="elevatorControl.requestDownFromFloor(highestFloor - i)">
+          <mat-icon>arrow_downward</mat-icon>
+        </button>
+        <app-elevator
+          *ngIf="elevatorControl.getCurrentLevel() === (highestFloor - i)"
+          [doorStatus]="elevatorControl.getDoorStatus()"
+        ></app-elevator>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>

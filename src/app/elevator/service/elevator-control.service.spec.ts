@@ -4,11 +4,12 @@ describe('ElevatorControlService', () => {
   let elevator: ElevatorControlService;
 
   beforeEach(() => {
-    elevator = new ElevatorControlService(5);
+    elevator = new ElevatorControlService(-2, 2);
   });
 
   it('should return levels', () => {
-    expect(elevator.getLevels()).toEqual(5);
+    expect(elevator.getLowestFloor()).toEqual(-2);
+    expect(elevator.getHighestFloor()).toEqual(2);
   });
 
   it('should return initial floor', () => {
