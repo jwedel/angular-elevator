@@ -3,28 +3,41 @@
     <mat-card-title>The building</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <mat-list>
-      <mat-list-item *ngFor="let level of [].constructor(getLevels()); let i = index">
-        <span mat-line>Floor {{highestFloor - i}}</span>
-        <button
-          *ngIf="i > 0"
-          mat-mini-fab
-          color="primary"
-          (click)="elevatorControl.requestUpFromFloor(highestFloor - i)">
-          <mat-icon>arrow_upward</mat-icon>
-        </button>
-        <button
-          *ngIf="i < (getLevels() -1 )"
-          mat-mini-fab
-          color="primary"
-          (click)="elevatorControl.requestDownFromFloor(highestFloor - i)">
-          <mat-icon>arrow_downward</mat-icon>
-        </button>
-        <app-elevator
-          *ngIf="elevatorControl.getCurrentLevel() === (highestFloor - i)"
-          [doorStatus]="elevatorControl.getDoorStatus()"
-        ></app-elevator>
-      </mat-list-item>
-    </mat-list>
+    <mat-table [dataSource]="floors">
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Floor</mat-header-cell>
+        <mat-cell *matCellDef="let floor">{{floor.level}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="buttons">
+        <mat-header-cell *matHeaderCellDef>Buttons</mat-header-cell>
+        <mat-cell *matCellDef="let floor" class="button-cell">
+          <button
+            *ngIf="floor.level < highestFloor"
+            mat-mini-fab
+            color="primary"
+            (click)="elevatorControl.requestUpFromFloor(floor.level)">
+            <mat-icon>arrow_upward</mat-icon>
+          </button>
+          <button
+            *ngIf="floor.level > lowestFloor"
+            mat-mini-fab
+            color="primary"
+            (click)="elevatorControl.requestDownFromFloor(floor.level)">
+            <mat-icon>arrow_downward</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="elevator">
+        <mat-header-cell *matHeaderCellDef>Elevator</mat-header-cell>
+        <mat-cell *matCellDef="let floor">
+          <app-elevator
+            *ngIf="elevatorControl.getCurrentLevel() === floor.level"
+            [doorStatus]="elevatorControl.getDoorStatus()">
+          </app-elevator>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
   </mat-card-content>
 </mat-card>

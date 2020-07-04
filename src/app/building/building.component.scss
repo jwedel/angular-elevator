@@ -2,3 +2,12 @@
   max-width: 400px;
   margin: 30px;
 }
+
+mat-cell.mat-column-buttons {
+  flex-direction: column;
+  margin: 5px;
+
+  button {
+    margin: 5px;
+  }
+}
