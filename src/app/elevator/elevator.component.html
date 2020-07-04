@@ -1,2 +1,4 @@
-<p *ngIf="doorStatus === 'OPEN'">[&nbsp;&nbsp;]</p>
-<p *ngIf="doorStatus === 'CLOSED'">[]</p>
+<div class="cabin">
+  <div class="door door-left" [ngClass]="doorStatus === 'CLOSED' ? 'door-closed' : 'door-open'"></div>
+  <div class="door door-right" [ngClass]="doorStatus === 'CLOSED' ? 'door-closed' : 'door-open'"></div>
+</div>
