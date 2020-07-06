@@ -28,10 +28,6 @@ export class BuildingComponent implements OnInit, OnDestroy {
   constructor() {
   }
 
-  getLevels(): number {
-    return (this.highestFloor - this.lowestFloor) + 1;
-  }
-
   ngOnInit(): void {
     this.elevatorControl = new ElevatorControlService(this.lowestFloor, this.highestFloor);
     this.timerSubscription = interval(1000).subscribe(() => this.elevatorControl.nextStep());
@@ -48,5 +44,9 @@ export class BuildingComponent implements OnInit, OnDestroy {
       floors.push({level: i});
     }
     return floors;
+  }
+
+  onButtonClick($event: number): void {
+    this.elevatorControl.goTo($event);
   }
 }

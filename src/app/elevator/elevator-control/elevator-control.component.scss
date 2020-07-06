@@ -1,0 +1,19 @@
+.floor-buttons {
+  flex-direction: column;
+  display: flex;
+
+  .floor-display {
+    margin: 10px;
+    padding: 12px;
+
+    background-color: black;
+
+    color: #a2ffa2;
+    font-family: monospace;
+    font-size: xx-large;
+  }
+
+  button {
+    margin: 5px;
+  }
+}
