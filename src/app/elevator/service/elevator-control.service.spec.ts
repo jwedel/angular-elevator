@@ -44,126 +44,91 @@ describe('ElevatorControlService', () => {
   it('should go down when requesting up ride from floor below', () => {
     elevator.requestUpFromFloor(-1);
 
-    advanceToNextChange();
-    expectElevatorState(0, 'CLOSED', 'DOWN');
-
-    advanceToNextChange();
-    expectElevatorState(-1, 'CLOSED', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(-1, 'OPEN', 'IDLE');
+    expectElevatorStateSequence([
+      [0, 'CLOSED', 'DOWN'],
+      [-1, 'CLOSED', 'IDLE'],
+      [-1, 'OPEN', 'IDLE']
+    ]);
   });
 
   it('should go down when requesting down ride from floor below', () => {
     elevator.requestDownFromFloor(-2);
 
-    advanceToNextChange();
-    expectElevatorState(0, 'CLOSED', 'DOWN');
-
-    advanceToNextChange();
-    expectElevatorState(-1, 'CLOSED', 'DOWN');
-
-    advanceToNextChange();
-    expectElevatorState(-2, 'CLOSED', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(-2, 'OPEN', 'IDLE');
+    expectElevatorStateSequence([
+      [0, 'CLOSED', 'DOWN'],
+      [-1, 'CLOSED', 'DOWN'],
+      [-2, 'CLOSED', 'IDLE'],
+      [-2, 'OPEN', 'IDLE']
+    ]);
   });
 
   it('should go up when requesting up ride from floor above', () => {
     elevator.requestUpFromFloor(1);
 
-    advanceToNextChange();
-    expectElevatorState(0, 'CLOSED', 'UP');
-
-    advanceToNextChange();
-    expectElevatorState(1, 'CLOSED', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(1, 'OPEN', 'IDLE');
+    expectElevatorStateSequence([
+      [0, 'CLOSED', 'UP'],
+      [1, 'CLOSED', 'IDLE'],
+      [1, 'OPEN', 'IDLE']
+    ]);
   });
 
   it('should go up when requesting down ride from floor above', () => {
     elevator.requestDownFromFloor(1);
 
-    advanceToNextChange();
-    expectElevatorState(0, 'CLOSED', 'UP');
-
-    advanceToNextChange();
-    expectElevatorState(1, 'CLOSED', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(1, 'OPEN', 'IDLE');
+    expectElevatorStateSequence([
+      [0, 'CLOSED', 'UP'],
+      [1, 'CLOSED', 'IDLE'],
+      [1, 'OPEN', 'IDLE']
+    ]);
   });
 
   it('should close doors when going up to another floor', () => {
     elevator.requestUpFromFloor(1);
 
-    advanceToNextChange();
-    expectElevatorState(0, 'CLOSED', 'UP');
-
-    advanceToNextChange();
-    expectElevatorState(1, 'CLOSED', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(1, 'OPEN', 'IDLE');
+    expectElevatorStateSequence([
+      [0, 'CLOSED', 'UP'],
+      [1, 'CLOSED', 'IDLE'],
+      [1, 'OPEN', 'IDLE']
+    ]);
 
     elevator.goTo(2);
 
-    advanceToNextChange();
-    expectElevatorState(1, 'CLOSED', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(1, 'CLOSED', 'UP');
-
-    advanceToNextChange();
-    expectElevatorState(2, 'CLOSED', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(2, 'OPEN', 'IDLE');
+    expectElevatorStateSequence([
+      [1, 'CLOSED', 'IDLE'],
+      [1, 'CLOSED', 'UP'],
+      [2, 'CLOSED', 'IDLE'],
+      [2, 'OPEN', 'IDLE']
+    ]);
   });
 
   it('should close doors when going down to another floor', () => {
     elevator.requestUpFromFloor(1);
 
-    advanceToNextChange();
-    expectElevatorState(0, 'CLOSED', 'UP');
-
-    advanceToNextChange();
-    expectElevatorState(1, 'CLOSED', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(1, 'OPEN', 'IDLE');
+    expectElevatorStateSequence([
+      [0, 'CLOSED', 'UP'],
+      [1, 'CLOSED', 'IDLE'],
+      [1, 'OPEN', 'IDLE']
+    ]);
 
     elevator.goTo(0);
 
-    advanceToNextChange();
-    expectElevatorState(1, 'CLOSED', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(1, 'CLOSED', 'DOWN');
-
-    advanceToNextChange();
-    expectElevatorState(0, 'CLOSED', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(0, 'OPEN', 'IDLE');
+    expectElevatorStateSequence([
+      [1, 'CLOSED', 'IDLE'],
+      [1, 'CLOSED', 'DOWN'],
+      [0, 'CLOSED', 'IDLE'],
+      [0, 'OPEN', 'IDLE']
+    ]);
   });
 
   it('should go up when requesting up ride two floors above', () => {
     elevator.requestUpFromFloor(2);
 
-    advanceToNextChange();
-    expectElevatorState(0, 'CLOSED', 'UP');
-
-    advanceToNextChange();
-    expectElevatorState(1, 'CLOSED', 'UP');
-
-    advanceToNextChange();
-    expectElevatorState(2, 'CLOSED', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(2, 'OPEN', 'IDLE');
+    expectElevatorStateSequence([
+      [0, 'CLOSED', 'UP'],
+      [1, 'CLOSED', 'UP'],
+      [2, 'CLOSED', 'IDLE'],
+      [2, 'OPEN', 'IDLE']
+    ]);
   });
 
   it('should not do anything when no requests available', () => {
@@ -174,129 +139,108 @@ describe('ElevatorControlService', () => {
   it('should go up to selected floor', () => {
     elevator.goTo(2);
 
-    advanceToNextChange();
-    expectElevatorState(0, 'CLOSED', 'UP');
-
-    advanceToNextChange();
-    expectElevatorState(1, 'CLOSED', 'UP');
-
-    advanceToNextChange();
-    expectElevatorState(2, 'CLOSED', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(2, 'OPEN', 'IDLE');
+    expectElevatorStateSequence([
+      [0, 'CLOSED', 'UP'],
+      [1, 'CLOSED', 'UP'],
+      [2, 'CLOSED', 'IDLE'],
+      [2, 'OPEN', 'IDLE']
+    ]);
   });
 
   it('should handle up floor requests in same direction as current ride', () => {
     elevator.goTo(2);
     elevator.requestUpFromFloor(1);
 
-    advanceToNextChange();
-    expectElevatorState(0, 'CLOSED', 'UP');
-
-    advanceToNextChange();
-    expectElevatorState(1, 'CLOSED', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(1, 'OPEN', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(1, 'CLOSED', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(1, 'CLOSED', 'UP');
-
-    advanceToNextChange();
-    expectElevatorState(2, 'CLOSED', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(2, 'OPEN', 'IDLE');
+    expectElevatorStateSequence([
+      [0, 'CLOSED', 'UP'],
+      [1, 'CLOSED', 'IDLE'],
+      [1, 'OPEN', 'IDLE'],
+      [1, 'CLOSED', 'IDLE'],
+      [1, 'CLOSED', 'UP'],
+      [2, 'CLOSED', 'IDLE'],
+      [2, 'OPEN', 'IDLE']
+    ]);
   });
 
   it('should handle down floor requests in same direction as current ride', () => {
     elevator.goTo(-2);
     elevator.requestDownFromFloor(-1);
 
-    advanceToNextChange();
-    expectElevatorState(0, 'CLOSED', 'DOWN');
-
-    advanceToNextChange();
-    expectElevatorState(-1, 'CLOSED', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(-1, 'OPEN', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(-1, 'CLOSED', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(-1, 'CLOSED', 'DOWN');
-
-    advanceToNextChange();
-    expectElevatorState(-2, 'CLOSED', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(-2, 'OPEN', 'IDLE');
+    expectElevatorStateSequence([
+      [0, 'CLOSED', 'DOWN'],
+      [-1, 'CLOSED', 'IDLE'],
+      [-1, 'OPEN', 'IDLE'],
+      [-1, 'CLOSED', 'IDLE'],
+      [-1, 'CLOSED', 'DOWN'],
+      [-2, 'CLOSED', 'IDLE'],
+      [-2, 'OPEN', 'IDLE']
+    ]);
   });
 
   it('should not handle floor requests in other direction as current ride', () => {
     elevator.goTo(2);
     elevator.requestDownFromFloor(1);
 
-    advanceToNextChange();
-    expectElevatorState(0, 'CLOSED', 'UP');
-
-    advanceToNextChange();
-    expectElevatorState(1, 'CLOSED', 'UP');
-
-    advanceToNextChange();
-    expectElevatorState(2, 'CLOSED', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(2, 'OPEN', 'IDLE');
+    expectElevatorStateSequence([
+      [0, 'CLOSED', 'UP'],
+      [1, 'CLOSED', 'UP'],
+      [2, 'CLOSED', 'IDLE'],
+      [2, 'OPEN', 'IDLE']
+    ]);
   });
 
   it('should handle elevator requests in same direction as current ride', () => {
     elevator.goTo(2);
     elevator.goTo(1);
 
-    advanceToNextChange();
-    expectElevatorState(0, 'CLOSED', 'UP');
-
-    advanceToNextChange();
-    expectElevatorState(1, 'CLOSED', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(1, 'OPEN', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(1, 'CLOSED', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(1, 'CLOSED', 'UP');
-
-    advanceToNextChange();
-    expectElevatorState(2, 'CLOSED', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(2, 'OPEN', 'IDLE');
+    expectElevatorStateSequence([
+      [0, 'CLOSED', 'UP'],
+      [1, 'CLOSED', 'IDLE'],
+      [1, 'OPEN', 'IDLE'],
+      [1, 'CLOSED', 'IDLE'],
+      [1, 'CLOSED', 'UP'],
+      [2, 'CLOSED', 'IDLE'],
+      [2, 'OPEN', 'IDLE']
+    ]);
   });
 
   it('should go down to selected floor', () => {
     elevator.goTo(-2);
 
-    advanceToNextChange();
-    expectElevatorState(0, 'CLOSED', 'DOWN');
-
-    advanceToNextChange();
-    expectElevatorState(-1, 'CLOSED', 'DOWN');
-
-    advanceToNextChange();
-    expectElevatorState(-2, 'CLOSED', 'IDLE');
-
-    advanceToNextChange();
-    expectElevatorState(-2, 'OPEN', 'IDLE');
+    expectElevatorStateSequence([
+      [0, 'CLOSED', 'DOWN'],
+      [-1, 'CLOSED', 'DOWN'],
+      [-2, 'CLOSED', 'IDLE'],
+      [-2, 'OPEN', 'IDLE']
+    ]);
   });
+
+  it('should go down for request after going up and opening at target floor', () => {
+    elevator.goTo(2);
+    elevator.requestDownFromFloor(1);
+
+    expectElevatorStateSequence([
+      [0, 'CLOSED', 'UP'],
+      [1, 'CLOSED', 'UP'],
+      [2, 'CLOSED', 'IDLE'],
+      [2, 'OPEN', 'IDLE'],
+      [2, 'CLOSED', 'IDLE'],
+      [2, 'CLOSED', 'DOWN'],
+      [1, 'CLOSED', 'IDLE'],
+      [1, 'OPEN', 'IDLE'],
+      [1, 'CLOSED', 'IDLE']
+    ]);
+  });
+
+  function expectElevatorStateSequence(expectedStates: (number | DoorStatus | OperationState)[][]): void {
+    for (const expectedState of expectedStates) {
+      const [expectedLevel, expectedDoorState, expectedOperationStatus] = expectedState;
+      advanceToNextChange();
+      expectElevatorState(expectedLevel as number,
+        expectedDoorState as DoorStatus,
+        expectedOperationStatus as OperationState);
+    }
+  }
 
   function advanceToNextChange(maxIterations: number = 5): void {
     const doorStatus = elevator.getDoorStatus();
