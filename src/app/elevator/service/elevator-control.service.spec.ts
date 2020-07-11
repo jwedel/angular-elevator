@@ -187,7 +187,7 @@ describe('ElevatorControlService', () => {
     expectElevatorState(2, 'OPEN', 'IDLE');
   });
 
-  it('should handle requests in same direction as current ride', () => {
+  it('should handle up floor requests in same direction as current ride', () => {
     elevator.goTo(2);
     elevator.requestUpFromFloor(1);
 
@@ -199,6 +199,78 @@ describe('ElevatorControlService', () => {
 
     advanceToNextChange();
     expectElevatorState(1, 'OPEN', 'IDLE');
+
+    advanceToNextChange();
+    expectElevatorState(1, 'CLOSED', 'IDLE');
+
+    advanceToNextChange();
+    expectElevatorState(1, 'CLOSED', 'UP');
+
+    advanceToNextChange();
+    expectElevatorState(2, 'CLOSED', 'IDLE');
+
+    advanceToNextChange();
+    expectElevatorState(2, 'OPEN', 'IDLE');
+  });
+
+  it('should handle down floor requests in same direction as current ride', () => {
+    elevator.goTo(-2);
+    elevator.requestDownFromFloor(-1);
+
+    advanceToNextChange();
+    expectElevatorState(0, 'CLOSED', 'DOWN');
+
+    advanceToNextChange();
+    expectElevatorState(-1, 'CLOSED', 'IDLE');
+
+    advanceToNextChange();
+    expectElevatorState(-1, 'OPEN', 'IDLE');
+
+    advanceToNextChange();
+    expectElevatorState(-1, 'CLOSED', 'IDLE');
+
+    advanceToNextChange();
+    expectElevatorState(-1, 'CLOSED', 'DOWN');
+
+    advanceToNextChange();
+    expectElevatorState(-2, 'CLOSED', 'IDLE');
+
+    advanceToNextChange();
+    expectElevatorState(-2, 'OPEN', 'IDLE');
+  });
+
+  it('should not handle floor requests in other direction as current ride', () => {
+    elevator.goTo(2);
+    elevator.requestDownFromFloor(1);
+
+    advanceToNextChange();
+    expectElevatorState(0, 'CLOSED', 'UP');
+
+    advanceToNextChange();
+    expectElevatorState(1, 'CLOSED', 'UP');
+
+    advanceToNextChange();
+    expectElevatorState(2, 'CLOSED', 'IDLE');
+
+    advanceToNextChange();
+    expectElevatorState(2, 'OPEN', 'IDLE');
+  });
+
+  it('should handle elevator requests in same direction as current ride', () => {
+    elevator.goTo(2);
+    elevator.goTo(1);
+
+    advanceToNextChange();
+    expectElevatorState(0, 'CLOSED', 'UP');
+
+    advanceToNextChange();
+    expectElevatorState(1, 'CLOSED', 'IDLE');
+
+    advanceToNextChange();
+    expectElevatorState(1, 'OPEN', 'IDLE');
+
+    advanceToNextChange();
+    expectElevatorState(1, 'CLOSED', 'IDLE');
 
     advanceToNextChange();
     expectElevatorState(1, 'CLOSED', 'UP');

@@ -98,24 +98,28 @@ export class ElevatorControlService {
       }
       case 'DOWN': {
         this.currentLevel--;
-        if (this.currentLevel === nextEvent.targetLevel) {
-          this.operationState = 'IDLE';
-          this.openDoor();
-        } else {
-          this.requests.unshift(nextEvent);
-        }
+        this.handleMoving(nextEvent);
         break;
       }
       case 'UP': {
         this.currentLevel++;
-        if (this.currentLevel === nextEvent.targetLevel) {
-          this.operationState = 'IDLE';
-          this.microTaskQueue.push({task: 'OPEN_DOOR'});
-        } else {
-          this.requests.unshift(nextEvent);
-        }
+        this.handleMoving(nextEvent);
         break;
       }
+    }
+  }
+
+  private handleMoving(nextEvent: Request): void {
+    if (this.currentLevel === nextEvent.targetLevel) {
+      this.operationState = 'IDLE';
+      this.openDoor();
+    } else {
+      const requestToCurrentFloor = this.removePendingRequestsOnCurrentLevel();
+      if (requestToCurrentFloor.length > 0) {
+        this.operationState = 'IDLE';
+        this.openDoor();
+      }
+      this.requests.unshift(nextEvent);
     }
   }
 
@@ -138,5 +142,22 @@ export class ElevatorControlService {
         break;
       }
     }
+  }
+
+  private removePendingRequestsOnCurrentLevel(): Request[] {
+    const pendingOnCurrentLevel: Request[] = [];
+    const rest: Request[] = [];
+    this.requests.forEach(request => {
+      if (request.targetLevel === this.currentLevel &&
+        request.direction === this.operationState) {
+        pendingOnCurrentLevel.push(request);
+      } else {
+        rest.push(request);
+      }
+    });
+
+    this.requests = rest;
+
+    return pendingOnCurrentLevel;
   }
 }
