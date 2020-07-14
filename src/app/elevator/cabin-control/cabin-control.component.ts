@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Floor} from '../../building/building.component';
+import {Request} from '../service/elevator-control.service';
 
 @Component({
   selector: 'app-cabin-control',
@@ -14,6 +15,9 @@ export class CabinControlComponent implements OnInit {
   @Input()
   floors: Floor[];
 
+  @Input()
+  cabinRequests: Request[];
+
   @Output() buttonClicked = new EventEmitter<number>();
 
   constructor() {
@@ -22,4 +26,7 @@ export class CabinControlComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  isCabinButtonPressed(level: number): boolean {
+    return this.cabinRequests.find(request => request.targetLevel === level) !== undefined;
+  }
 }

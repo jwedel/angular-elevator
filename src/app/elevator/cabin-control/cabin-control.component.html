@@ -6,7 +6,7 @@
     <span class="floor-display">{{currentFloor}}</span>
     <button *ngFor="let floor of floors"
             mat-mini-fab
-            color="primary"
+            [color]="isCabinButtonPressed(floor.level) ? 'accent' : 'primary'"
             (click)="buttonClicked.emit(floor.level)">
       <span>{{floor.level}}</span>
     </button>

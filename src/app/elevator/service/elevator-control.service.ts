@@ -1,8 +1,10 @@
+import {BehaviorSubject} from 'rxjs';
+
 export type Direction = 'UP' | 'DOWN';
 export type DoorStatus = 'OPEN' | 'CLOSED';
 export type OperationState = Direction | 'IDLE';
 
-type Request = {
+export type Request = {
   direction: Direction,
   targetLevel: number,
   originLevel?: number
@@ -16,6 +18,8 @@ export class ElevatorControlService {
   private doorStatus: DoorStatus = 'CLOSED';
   private microTaskQueue: MicroTask[] = [];
   private operationState: OperationState = 'IDLE';
+  cabinRequests: BehaviorSubject<Request[]> = new BehaviorSubject<Request[]>([]);
+  floorRequests: BehaviorSubject<Request[]> = new BehaviorSubject<Request[]>([]);
 
   constructor(
     private readonly lowestFloor: number,
@@ -83,6 +87,9 @@ export class ElevatorControlService {
         }
       }
     }
+
+    this.cabinRequests.next(this.getCabinRequests());
+    this.floorRequests.next(this.getFloorRequests());
   }
 
   private handleRequest(nextEvent: Request): void {
@@ -159,5 +166,13 @@ export class ElevatorControlService {
     this.requests = rest;
 
     return pendingOnCurrentLevel;
+  }
+
+  private getCabinRequests(): Request[] {
+    return this.requests.filter(request => !!request.originLevel);
+  }
+
+  private getFloorRequests(): Request[] {
+    return this.requests.filter(request => !request.originLevel);
   }
 }

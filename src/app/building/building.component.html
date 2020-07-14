@@ -45,5 +45,6 @@
 <app-cabin-control
   [currentFloor]="elevatorControl.getCurrentLevel()"
   (buttonClicked)="onButtonClick($event)"
-  [floors]="floors">
+  [floors]="floors"
+  [cabinRequests]="elevatorControl.cabinRequests | async">
 </app-cabin-control>
