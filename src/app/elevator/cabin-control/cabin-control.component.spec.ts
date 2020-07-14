@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ElevatorControlComponent } from './elevator-control.component';
+import { CabinControlComponent } from './cabin-control.component';
 
 describe('ElevatorControlComponent', () => {
-  let component: ElevatorControlComponent;
-  let fixture: ComponentFixture<ElevatorControlComponent>;
+  let component: CabinControlComponent;
+  let fixture: ComponentFixture<CabinControlComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ElevatorControlComponent ]
+      declarations: [ CabinControlComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ElevatorControlComponent);
+    fixture = TestBed.createComponent(CabinControlComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -12,14 +12,14 @@ import {MatListModule} from '@angular/material/list';
 import {MatCardModule} from '@angular/material/card';
 import {ElevatorControlService} from './elevator/service/elevator-control.service';
 import {MatTableModule} from '@angular/material/table';
-import { ElevatorControlComponent } from './elevator/elevator-control/elevator-control.component';
+import { CabinControlComponent } from './elevator/cabin-control/cabin-control.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BuildingComponent,
     ElevatorComponent,
-    ElevatorControlComponent
+    CabinControlComponent
   ],
   imports: [
     BrowserModule,

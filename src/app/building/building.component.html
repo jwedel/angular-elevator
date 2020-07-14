@@ -42,8 +42,8 @@
   </mat-card-content>
 </mat-card>
 
-<app-elevator-control
+<app-cabin-control
   [currentFloor]="elevatorControl.getCurrentLevel()"
   (buttonClicked)="onButtonClick($event)"
   [floors]="floors">
-</app-elevator-control>
+</app-cabin-control>

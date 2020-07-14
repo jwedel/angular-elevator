@@ -2,11 +2,11 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Floor} from '../../building/building.component';
 
 @Component({
-  selector: 'app-elevator-control',
-  templateUrl: './elevator-control.component.html',
-  styleUrls: ['./elevator-control.component.scss']
+  selector: 'app-cabin-control',
+  templateUrl: './cabin-control.component.html',
+  styleUrls: ['./cabin-control.component.scss']
 })
-export class ElevatorControlComponent implements OnInit {
+export class CabinControlComponent implements OnInit {
 
   @Input()
   currentFloor: number;
