@@ -1,6 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {ElevatorControlService} from '../elevator/service/elevator-control.service';
-import {Observable, interval, Subscription} from 'rxjs';
+import {Direction, ElevatorControlService, Request} from '../elevator/service/elevator-control.service';
+import {interval, Subscription} from 'rxjs';
 
 export interface Floor {
   level: number;
@@ -23,6 +23,8 @@ export class BuildingComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['name', 'buttons', 'elevator'];
 
   private timerSubscription: Subscription;
+  private floorRequestsSubscription: Subscription;
+  private floorRequests: Request[] = [];
   floors: Floor[] = [];
 
   constructor() {
@@ -31,11 +33,14 @@ export class BuildingComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.elevatorControl = new ElevatorControlService(this.lowestFloor, this.highestFloor);
     this.timerSubscription = interval(1000).subscribe(() => this.elevatorControl.nextStep());
+    this.floorRequestsSubscription = this.elevatorControl.floorRequests
+      .subscribe(requests => this.floorRequests = requests);
     this.floors = this.buildFloors();
   }
 
   ngOnDestroy(): void {
     this.timerSubscription.unsubscribe();
+    this.floorRequestsSubscription.unsubscribe();
   }
 
   private buildFloors(): Floor[] {
@@ -48,5 +53,11 @@ export class BuildingComponent implements OnInit, OnDestroy {
 
   onButtonClick($event: number): void {
     this.elevatorControl.goTo($event);
+  }
+
+  isFloorButtonPressed(level: number, direction: Direction): boolean {
+    return this.floorRequests.find(request => {
+      return request.direction === direction && request.targetLevel === level;
+    }) !== undefined;
   }
 }

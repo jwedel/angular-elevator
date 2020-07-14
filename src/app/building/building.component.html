@@ -14,14 +14,14 @@
           <button
             *ngIf="floor.level < highestFloor"
             mat-mini-fab
-            color="primary"
+            [color]="isFloorButtonPressed(floor.level, 'UP') ? 'accent' : 'primary'"
             (click)="elevatorControl.requestUpFromFloor(floor.level)">
             <mat-icon>arrow_upward</mat-icon>
           </button>
           <button
             *ngIf="floor.level > lowestFloor"
             mat-mini-fab
-            color="primary"
+            [color]="isFloorButtonPressed(floor.level, 'DOWN') ? 'accent' : 'primary'"
             (click)="elevatorControl.requestDownFromFloor(floor.level)">
             <mat-icon>arrow_downward</mat-icon>
           </button>
