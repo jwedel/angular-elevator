@@ -169,10 +169,10 @@ export class ElevatorControlService {
   }
 
   private getCabinRequests(): Request[] {
-    return this.requests.filter(request => !!request.originLevel);
+    return this.requests.filter(request => request.originLevel !== undefined);
   }
 
   private getFloorRequests(): Request[] {
-    return this.requests.filter(request => !request.originLevel);
+    return this.requests.filter(request => request.originLevel === undefined);
   }
 }
