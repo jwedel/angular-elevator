@@ -4,5 +4,13 @@
       min-width: 400px;
       margin: 30px;
     }
+
+    .elevator-button {
+      box-shadow: none;
+    }
+
+    .elevator-button.mat-primary {
+      background-color: darkslateblue;
+    }
   }
 }

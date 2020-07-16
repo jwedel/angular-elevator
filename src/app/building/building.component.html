@@ -1,6 +1,6 @@
 <mat-card class="building-card">
   <mat-card-header>
-    <mat-card-title>The Building Controls</mat-card-title>
+    <mat-card-title>Building Controls</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <mat-table [dataSource]="floors">
@@ -12,6 +12,7 @@
         <mat-header-cell *matHeaderCellDef>Buttons</mat-header-cell>
         <mat-cell *matCellDef="let floor" class="button-cell">
           <button
+            class="elevator-button"
             *ngIf="floor.level < highestFloor"
             mat-mini-fab
             [color]="isFloorButtonPressed(floor.level, 'UP') ? 'accent' : 'primary'"
@@ -19,6 +20,7 @@
             <mat-icon>arrow_upward</mat-icon>
           </button>
           <button
+            class="elevator-button"
             *ngIf="floor.level > lowestFloor"
             mat-mini-fab
             [color]="isFloorButtonPressed(floor.level, 'DOWN') ? 'accent' : 'primary'"

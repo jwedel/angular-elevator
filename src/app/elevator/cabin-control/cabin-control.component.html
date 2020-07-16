@@ -4,7 +4,8 @@
   </mat-card-header>
   <mat-card-content class="floor-buttons">
     <span class="floor-display">{{currentFloor}}</span>
-    <button *ngFor="let floor of floors"
+    <button class="elevator-button"
+            *ngFor="let floor of floors"
             mat-mini-fab
             [color]="isCabinButtonPressed(floor.level) ? 'accent' : 'primary'"
             (click)="buttonClicked.emit(floor.level)">
