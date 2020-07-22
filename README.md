@@ -1,5 +1,7 @@
 # Elevator
 
+![Elevator Screenshot](./images/elevator-ui-screenshot.png "This is a screenshot of the elevator UI")
+
 This project is a simple implementation of an elevator control including a UI to play with it.
 It was started to experiment with Angular 10, Jest testing framework and to find out how complex an elevator control actually is.
 
