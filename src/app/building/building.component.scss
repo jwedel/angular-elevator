@@ -5,6 +5,7 @@
 }
 mat-cell.mat-column-buttons {
   flex-direction: column;
+  align-items: flex-start;
   margin: 5px;
 
   button {
