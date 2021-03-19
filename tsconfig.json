@@ -18,5 +18,6 @@
     }
   ],
   "compilerOptions": {
+    "esModuleInterop": true
   }
 }

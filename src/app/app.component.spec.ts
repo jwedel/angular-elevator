@@ -1,35 +1,46 @@
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import {BuildingComponent} from './building/building.component';
+import {MatCardModule} from '@angular/material/card';
+import {MatTableModule} from '@angular/material/table';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {ElevatorComponent} from './elevator/elevator.component';
+import {CabinControlComponent} from './elevator/cabin-control/cabin-control.component';
 
 describe('AppComponent', () => {
-  beforeEach(async(() => {
+  let fixture;
+  let app;
+
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        MatCardModule,
+        MatTableModule,
+        MatButtonModule,
+        MatIconModule
       ],
       declarations: [
-        AppComponent
+        AppComponent,
+        BuildingComponent,
+        ElevatorComponent,
+        CabinControlComponent
       ],
     }).compileComponents();
-  }));
+
+    fixture = TestBed.createComponent(AppComponent);
+    app = fixture.componentInstance;
+    fixture.detectChanges();
+
+  });
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
 
   it(`should have as title 'elevator'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
     expect(app.title).toEqual('elevator');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('elevator app is running!');
   });
 });

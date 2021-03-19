@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CabinControlComponent } from './cabin-control.component';
+import {MatCardModule} from "@angular/material/card";
+import {MatButtonModule} from "@angular/material/button";
 
 describe('ElevatorControlComponent', () => {
   let component: CabinControlComponent;
@@ -8,6 +10,10 @@ describe('ElevatorControlComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        MatCardModule,
+        MatButtonModule
+      ],
       declarations: [ CabinControlComponent ]
     })
     .compileComponents();
